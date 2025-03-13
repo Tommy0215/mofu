@@ -1,20 +1,30 @@
+//flutter build-in
 import 'package:flutter/material.dart';
+//flame
+import 'package:flame/components.dart';
+import 'package:flame/game.dart';
+//
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    GameWidget(
+      game: FlameGame(world: MyWorld()))
+  );
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyWorld extends World {
+  @override
+  Future<void> onLoad() async {
+    add(Player(position: Vector2(0, 0)));
+  }
+}
+
+class Player extends SpriteComponent {
+  Player({super.position}) :
+    super(size: Vector2.all(200), anchor: Anchor.center);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
+  Future<void> onLoad() async {
+    sprite = await Sprite.load('player.png');
   }
 }
