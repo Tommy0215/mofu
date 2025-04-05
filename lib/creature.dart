@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
 
 class Creature extends SpriteComponent with HasGameRef {
   final Random _random = Random();
@@ -9,8 +8,11 @@ class Creature extends SpriteComponent with HasGameRef {
   bool _isMoving = false;
   bool _isRandomMoving = false; // Flag to check if it's moving randomly
   late Vector2 _targetPosition; // Target position for tap-to-move
-  double _speed = 100; // Movement speed
-  double _maxRadius = 100; // Max random movement radius
+  final double _speed = 100; // Movement speed
+  final double _maxRadius = 100; // Max random movement radius
+
+  late Sprite _mofu;
+  late Sprite _happy_mofu;
 
   Creature() : super(size: Vector2.all(100)) {
     // Set the anchor to the center of the sprite
@@ -19,7 +21,11 @@ class Creature extends SpriteComponent with HasGameRef {
 
   @override
   Future<void> onLoad() async {
-    sprite = await Sprite.load('mofu.png');
+    _mofu = await Sprite.load('mofu.png');
+    _happy_mofu = await Sprite.load('mofu_happy.png');
+
+    sprite = _mofu;
+
     position = Vector2(200, 200); // Starting position (center of the creature)
   }
 
@@ -64,6 +70,7 @@ class Creature extends SpriteComponent with HasGameRef {
       } else {
         _isMoving = false; // Stop moving when target is reached
         _isRandomMoving = true; // Restart random movement after reaching target
+        sprite = _mofu;
       }
     }
   }
@@ -73,6 +80,7 @@ class Creature extends SpriteComponent with HasGameRef {
     _targetPosition = target;
     _isMoving = true;
     _isRandomMoving = false; // Stop random movement when tapping
+    sprite = _happy_mofu;
   }
 
   // Start random movement when the game starts or after a tap is finished
