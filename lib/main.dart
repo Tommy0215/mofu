@@ -1,30 +1,38 @@
-//flutter build-in
-import 'package:flutter/material.dart';
-//flame
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
+import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
-//
+import 'package:flame/input.dart';
+
+import 'backgrounds.dart';
+import 'creature.dart';
+
+import 'effect.dart';
+
 
 void main() {
-  runApp(
-    GameWidget(
-      game: FlameGame(world: MyWorld()))
-  );
+  runApp(GameWidget(game: MyGame()));
 }
 
-class MyWorld extends World {
-  @override
-  Future<void> onLoad() async {
-    add(Player(position: Vector2(0, 0)));
-  }
-}
-
-class Player extends SpriteComponent {
-  Player({super.position}) :
-    super(size: Vector2.all(200), anchor: Anchor.center);
+class MyGame extends FlameGame with TapDetector{
+  late Creature mofu;
 
   @override
   Future<void> onLoad() async {
-    sprite = await Sprite.load('player.png');
+    add(Background(Backgrounds.forest2)); //background, must be added first
+
+    mofu = Creature();
+    add(mofu);
+    mofu.startRandomMovement();
+  }
+
+  @override
+  void onTapDown(TapDownInfo info) {
+    final ripple = RippleEffect(info.eventPosition.global);
+    add(ripple);
+
+    final targetPosition = info.eventPosition.global;
+    mofu.moveTo(targetPosition); // Move the creature to the tapped position
   }
 }
+
