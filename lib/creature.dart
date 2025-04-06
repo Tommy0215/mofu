@@ -2,13 +2,14 @@ import 'dart:math';
 import 'package:flame/components.dart';
 
 class Creature extends SpriteComponent with HasGameRef {
+  final double _default_speed = 100;
   final Random _random = Random();
   double _actionTimer = 0;
   Vector2 _velocity = Vector2.zero();
   bool _isMoving = false;
   bool _isRandomMoving = false; // Flag to check if it's moving randomly
   late Vector2 _targetPosition; // Target position for tap-to-move
-  final double _speed = 100; // Movement speed
+  double _speed = 100; // Movement speed
   final double _maxRadius = 100; // Max random movement radius
 
   late Sprite _mofu;
@@ -54,7 +55,7 @@ class Creature extends SpriteComponent with HasGameRef {
 
       if (_isMoving) {
         position += _velocity * dt;
-        position.clamp(Vector2.zero(), gameRef.size - size);
+        position.clamp(Vector2.zero(), gameRef.size);
       }
     }
 
@@ -71,6 +72,7 @@ class Creature extends SpriteComponent with HasGameRef {
         _isMoving = false; // Stop moving when target is reached
         _isRandomMoving = true; // Restart random movement after reaching target
         sprite = _mofu;
+        _speed = _default_speed;
       }
     }
   }
@@ -81,6 +83,11 @@ class Creature extends SpriteComponent with HasGameRef {
     _isMoving = true;
     _isRandomMoving = false; // Stop random movement when tapping
     sprite = _happy_mofu;
+  }
+
+  // Speeds up the creature
+  void speedUp(){
+    _speed *= 2;
   }
 
   // Start random movement when the game starts or after a tap is finished
