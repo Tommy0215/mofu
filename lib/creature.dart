@@ -15,7 +15,7 @@ class Creature extends SpriteComponent with HasGameRef {
   late Sprite _mofu;
   late Sprite _happy_mofu;
 
-  Creature() : super(size: Vector2.all(100)) {
+  Creature() : super(size: Vector2.all(150)) {
     // Set the anchor to the center of the sprite
     anchor = Anchor.center;
   }
@@ -87,7 +87,7 @@ class Creature extends SpriteComponent with HasGameRef {
 
   // Speeds up the creature
   void speedUp(){
-    _speed *= 2;
+    _speed += 100;
   }
 
   // Start random movement when the game starts or after a tap is finished
