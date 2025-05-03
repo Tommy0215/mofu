@@ -1,1 +1,0 @@
-const int CREATURE_SPEED = 500;

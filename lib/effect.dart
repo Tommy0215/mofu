@@ -17,6 +17,7 @@ class RippleEffect extends CircleComponent {
         ) {
     this.position = position;
     paint = _paint;
+    priority = 2;
   }
 
 

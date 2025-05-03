@@ -3,7 +3,7 @@ import 'package:flame/events.dart';
 
 import 'main.dart'; // Only needed if using HasGameRef<MyGame>
 
-class TapArea extends PositionComponent with TapCallbacks, HasGameRef<MyGame> {
+class TapArea extends PositionComponent with TapCallbacks, HasGameReference<MyGame> {
   final void Function(Vector2 position) onSingleTap;
   final void Function(Vector2 position) onDoubleTap;
 
@@ -17,7 +17,7 @@ class TapArea extends PositionComponent with TapCallbacks, HasGameRef<MyGame> {
 
   @override
   Future<void> onLoad() async {
-    size = gameRef.size;
+    size = game.size;
     position = Vector2.zero();
   }
 
@@ -29,7 +29,7 @@ class TapArea extends PositionComponent with TapCallbacks, HasGameRef<MyGame> {
 
   @override
   void onTapDown(TapDownEvent event) {
-    final now = gameRef.currentTime();
+    final now = game.currentTime();
     final delta = now - lastTapTime;
     lastTapTime = now;
 

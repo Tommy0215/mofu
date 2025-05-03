@@ -7,18 +7,25 @@ class Backgrounds {
   static const String forest2 = 'bg_forest2.jpeg';
 }
 
-class Background extends PositionComponent with HasGameRef<FlameGame> {
+enum Backgroundss {
+  forest1,
+  forest2
+}
+
+class Background extends PositionComponent with HasGameReference<FlameGame> {
   final String path;
   late SpriteComponent spriteComponent;
   late RectangleComponent blackBackground;
 
-  Background(this.path);
+  Background(this.path){
+    priority = 0;
+  }
 
   @override
   Future<void> onLoad() async {
     // Add black fill background
     blackBackground = RectangleComponent(
-      size: gameRef.size,
+      size: game.size,
       paint: Paint()..color = Colors.black,
     );
     add(blackBackground);
@@ -28,7 +35,16 @@ class Background extends PositionComponent with HasGameRef<FlameGame> {
     spriteComponent = SpriteComponent(sprite: sprite);
     add(spriteComponent);
 
-    _resizeHybrid(gameRef.size);
+    _resizeHybrid(game.size);
+  }
+
+  String backgroundPath(Backgroundss bg) {
+    switch (bg) {
+      case Backgroundss.forest1:
+        return 'bg_forest.jpeg';
+      case Backgroundss.forest2:
+        return 'bg_forest2.jpeg';
+    }
   }
 
   @override
